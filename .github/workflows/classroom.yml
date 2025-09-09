@@ -1,0 +1,101 @@
+name: GitHub Classroom Workflow
+
+on: [push]
+
+jobs:
+  build-linux:
+    permissions: write-all
+    name: Autograding
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.12'
+    - name: Add conda to system path
+      run: |
+        # $CONDA is an environment variable pointing to the root of the miniconda directory
+        echo $CONDA/bin >> $GITHUB_PATH
+    - name: Set PYTHONPATH to see project modules
+      run: |
+         echo "PYTHONPATH=$GITHUB_WORKSPACE/src" >> $GITHUB_ENV
+    - name: Install dependencies
+      run: |
+        conda env update --file environment.yml --name base
+
+    - name: Show Python versions
+      id: show-python-versions
+      uses: etamu-class/autograding-command-grader@v10
+      with:
+        test-name: 'Show Python versions'
+        setup-command: ''
+        command: 'python src/python_versions.py'
+        timeout: '10'
+        max-score: '0'
+
+    - name: Test Assignment Notebook runs all cells cleanly
+      id: test-assignment-notebook
+      uses: etamu-class/autograding-command-grader@v10
+      with:
+        test-name: 'Test Assignment Notebook'
+        working-directory: './notebooks'
+        setup-command: ''
+        command: 'jupyter nbconvert --execute Assg-03-Linear-Regression-Gradient-Descent.ipynb --to notebook'
+        timeout: '10'
+        max-score: '20'
+
+    - name: Task 1 test add_dummy_feature()
+      id: test-task-1
+      uses: etamu-class/autograding-command-grader@v10
+      with:
+        test-name: 'Test Task 1'
+        setup-command: ''
+        command: 'python -m twisted.trial test_assg_tasks.test_add_dummy_feature'
+        timeout: '10'
+        max-score: '15'
+
+    - name: Task 2 test predict()
+      id: test-task-2
+      uses: etamu-class/autograding-command-grader@v10
+      with:
+        test-name: 'Test Task 2'
+        setup-command: ''
+        command: 'python -m twisted.trial test_assg_tasks.test_predict'
+        timeout: '10'
+        max-score: '15'
+
+    - name: Task 3 test loss_grad()
+      id: test-task-3
+      uses: etamu-class/autograding-command-grader@v10
+      with:
+        test-name: 'Test Task 3'
+        setup-command: ''
+        command: 'python -m twisted.trial test_assg_tasks.test_loss_grad'
+        timeout: '10'
+        max-score: '15'
+
+    - name: Task 4 test gradient_descent()
+      id: test-task-4
+      uses: etamu-class/autograding-command-grader@v10
+      with:
+        test-name: 'Test Task 4'
+        setup-command: ''
+        command: 'python -m twisted.trial test_assg_tasks.test_gradient_descent'
+        timeout: '10'
+        max-score: '15'
+
+
+    - name: Autograding Reporter
+      uses: education/autograding-grading-reporter@v1
+      env:
+        TEST-ASSIGNMENT-NOTEBOOK_RESULTS: "${{steps.test-assignment-notebook.outputs.result}}"
+        TEST-TASK-1_RESULTS: "${{steps.test-task-1.outputs.result}}"
+        TEST-TASK-2_RESULTS: "${{steps.test-task-2.outputs.result}}"
+        TEST-TASK-3_RESULTS: "${{steps.test-task-3.outputs.result}}"
+        TEST-TASK-4_RESULTS: "${{steps.test-task-4.outputs.result}}"
+      with:
+        runners: test-assignment-notebook,test-task-1,test-task-2,test-task-3,test-task-4
