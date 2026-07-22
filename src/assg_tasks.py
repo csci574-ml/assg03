@@ -1,6 +1,8 @@
 import math
+import pathlib
 import numpy as np
 import pandas as pd
+from assg_utils import PROJECT_ROOT
 
 
 def load_onefeature_dataset():
@@ -15,7 +17,7 @@ def load_onefeature_dataset():
         The true labels for training/fitting regression on.  A vector of 47 real valued target labels.
     """
     # get the data from file
-    data = np.genfromtxt('../data/data.csv', delimiter=',')
+    data = np.genfromtxt(PROJECT_ROOT / 'data' / 'data.csv', delimiter=',')
 
     # extract the features
     x = data[:, 0].reshape(-1, 1).copy()
@@ -37,7 +39,7 @@ def load_multifeature_dataset():
         The true labels for training/fitting regression on.  A vector of 47 real valued target labels.
     """
     # get the data from file
-    data = np.genfromtxt('../data/data.csv', delimiter=',')
+    data = np.genfromtxt(PROJECT_ROOT / 'data' / 'data.csv', delimiter=',')
 
     # extract the features
     x = data[:, :4].copy()

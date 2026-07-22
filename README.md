@@ -27,7 +27,7 @@ is performed.
 - The `### TESTED FUNCTION [function name]` cells call unit tests on the functions you are asked to write for these assignments.
   In this assignment, you need to uncomment the code in these cells and add in the needed function as described for each
   task.
-- All functions you need to write should be placed into the `src/assginment_tasks.py` file.  Functions that are
+- All functions you need to write should be placed into the `src/assg_tasks.py` file.  Functions that are
   tested and graded are imported from there into this notebook.
   - You have not been given function documentation and stub functions for this and future assignment.  You need to
     add in the function declarations and uncomment the code to import and test your functions.
