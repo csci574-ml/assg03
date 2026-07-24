@@ -4,6 +4,7 @@
 *.vagrant/*
 .virtual_documents/*
 _trial_temp/*
+**/*.egg-info/*
 
 *.acn
 *.swp

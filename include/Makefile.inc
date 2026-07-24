@@ -61,10 +61,10 @@ $(assg_doc) : README.md
 ##
 .PHONY : unit-tests
 unit-tests :
-	python -m twisted.trial test_assg_tasks.test_add_dummy_feature
-	python -m twisted.trial test_assg_tasks.test_predict
-	python -m twisted.trial test_assg_tasks.test_loss_grad
-	python -m twisted.trial test_assg_tasks.test_gradient_descent
+	python -m pytest -v -s test/test_add_dummy_feature.py
+	python -m pytest -v -s test/test_predict.py
+	python -m pytest -v -s test/test_loss_grad.py
+	python -m pytest -v -s test/test_gradient_descent.py
 
 ## clean        : Remove auto-generated files for a completely
 ##                clean rebuild

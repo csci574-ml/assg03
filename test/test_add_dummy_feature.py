@@ -1,7 +1,8 @@
 import pytest
 import numpy as np
-from assg_tasks import load_onefeature_dataset
-from assg_tasks import add_dummy_feature
+from assg.tasks import load_onefeature_dataset
+from assg.tasks import add_dummy_feature
+
 
 def test_given_case():
     train_x, train_y = load_onefeature_dataset()

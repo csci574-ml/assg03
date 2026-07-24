@@ -2,7 +2,7 @@ import math
 import pathlib
 import numpy as np
 import pandas as pd
-from assg_utils import PROJECT_ROOT
+from assg.utils import PROJECT_ROOT
 
 
 def load_onefeature_dataset():
